@@ -1,0 +1,181 @@
+var url = "https://raw.githubusercontent.com/b-mcavoy/datasets/main/Art/International%20Exhibition%20of%20Modern%20Art%201913.csv"
+
+// var Titles = getColumn (url, 1);
+// var Artists = getColumn (url, 2);
+// var Mediums = getColumn (url, 4);
+// var artsLocations = getColumn (url, 5);
+//var numLocations = getColumn (url, 6); 
+// var PriceDollars = getColumn (url, 7); 
+
+
+//Function 1
+// the input of the function is the title and output is the medium that art was made in.
+// Title: the parameter of the function. 
+// Matches: a variable that find the medium used in that artwork
+// Return: a single medium
+function getMedium (title){
+  var Titles = getColumn (url, 1);
+  var Medium = getColumn (url, 4);
+  
+  var matches = [];
+  for(var i = 0; i < Titles.length; i++){
+    if (Titles[i].toLowerCase().includes(title.toLowerCase())){
+      matches.push(Medium[i]);
+      return(matches);
+    }
+  }
+   return ("Art title not found");
+}
+ console.log(getMedium("Study of a Girl"));
+
+
+//Function 2
+
+//This Function takes a input of an Artists name, and the ouput is all the art works created by that artist 
+//The Parameter (string) it in the input of the function 
+//The return (list/string) is a list 
+
+function getArtistsArt (chosenArtist){
+     
+  var Titles = getColumn (url, 1);
+  var Artists = getColumn (url, 2);
+ 
+  artbythatartist = [];
+  if(chosenArtist.length == 0){
+    return ("Error, must enter an artists name")
+  }
+  for (var i = 0; i < Artists.length; i++){
+    if (Artists[i].toLowerCase().includes(chosenArtist.toLowerCase())){
+      
+      artbythatartist.push(Titles[i]); 
+      }
+    }
+  if(artbythatartist.length == 0){
+    
+    return("Artist Not Found");
+  }   
+  return (artbythatartist);
+ }
+console.log(getArtistsArt("Odilon Redon"));
+
+
+//Function 3
+
+//This Function takes an art medium and prints all the artist that have done art in that medium 
+//The parameter, is the input (string)
+//Return is (list/string) a list of strings 
+
+function artistsmediums(chosenMedium){
+  var Mediums = getColumn (url, 4);
+  var Titles = getColumn (url, 1);
+  var Artists = getColumn (url, 2);
+
+  var artistsInMedium = [];
+  if(chosenMedium.length == 0){
+    return ("Error, must enter a medium");
+  }
+  
+for(var i = 0; i < Mediums.length; i++){
+if(Mediums[i].toLowerCase().includes(chosenMedium.toLowerCase())){
+   artistsInMedium.push(Artists[i]);
+ } 
+  }
+
+  var UniqueArtistUsedMedium = [];
+
+  for (var i = 0; i < artistsInMedium.length; i++){
+    if(!UniqueArtistUsedMedium.includes(artistsInMedium[i])){
+      UniqueArtistUsedMedium.push(artistsInMedium[i]);
+    }
+  }
+  
+  if(UniqueArtistUsedMedium .length == 0){
+    return("Medium never used");
+  }
+return UniqueArtistUsedMedium;
+
+}
+ console.log(artistsmediums("stone"));
+
+
+//Function 4
+
+//the input of the function is a artist and output are the names and the values of his/her most expensive art piece.
+//the parameter is the string output with 2 answers.
+//retrun: the name of the higest value art title by that artist and the corresponding value to that art.
+
+  function getExpArt(artist){
+    var Titles = getColumn (url, 1);
+    var Artists = getColumn (url, 2);
+    var PriceDollars = getColumn (url, 7); 
+    
+    var artByArtist = []; 
+    var priceByArtist = [];
+    
+    for(var i = 0; i < Artists.length; i++){
+      if(Artists[i].toLowerCase().includes(artist.toLowerCase())){
+      artByArtist.push(Titles[i]);
+      priceByArtist.push(PriceDollars[i]);
+      }   
+     }
+    var max = 0
+    var maxIndex = 0;
+    
+    for(var i = 0; i < priceByArtist.length; i++){
+    if(priceByArtist[i] > max){
+      max = priceByArtist[i];
+      maxIndex = i;
+    }
+  }
+      
+  if(priceByArtist.length == 0 && artByArtist.length == 0){
+    return("Artist Not found");
+  }
+    return artByArtist[maxIndex]+": $" +  priceByArtist[maxIndex];
+}
+console.log (getExpArt("McEnery"));
+
+
+//Function 5
+
+//This function takes a medium as the input and prints the name and value of the most expensive painting in that medium group 
+//The parameter of this function is a (string/list) string output with two answers 
+//The return is the highest idex in the price column of the matching medium and title 
+
+function ArtmediumsPriceArtist(medium){
+  var Titles = getColumn (url, 1);
+  var Mediums = getColumn (url, 4);
+  var PriceDollars = getColumn (url, 7); 
+
+var titlesartMedium = [];
+var priceartMedium = []; 
+
+if(medium.length == 0){
+  return ("Error, must enter a medium");
+}
+  
+for(var i = 0; i < Mediums.length; i++){
+  if(Mediums[i].toLowerCase().includes(medium.toLowerCase())){
+    titlesartMedium.push(Titles[i]);
+    priceartMedium.push(PriceDollars[i]);  
+  }
+}
+  
+var max = 0;
+var maxIndex = 0; 
+ for(var i = 0; i < priceartMedium.length; i++){
+    if(priceartMedium[i] > max){
+      max = priceartMedium[i];
+      maxIndex = i;
+    }
+ } 
+  
+ if(titlesartMedium.length == 0 && priceartMedium.length == 0){
+    return "Medium never used";
+  }
+  
+  return titlesartMedium[maxIndex] + ": $" + priceartMedium[maxIndex]; 
+  
+}
+
+console.log(ArtmediumsPriceArtist("oil"));
